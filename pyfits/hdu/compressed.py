@@ -602,7 +602,7 @@ class CompImageHDU(BinTableHDU):
 
         # Handle deprecated keyword arguments
         compression_opts = {}
-        for oldarg, newarg in self.DEPRECATED_KWARGS.items():
+        for oldarg, newarg in list(self.DEPRECATED_KWARGS.items()):
             if oldarg in kwargs:
                 warnings.warn('Keyword argument %s to %s is pending '
                               'deprecation; use %s instead' %

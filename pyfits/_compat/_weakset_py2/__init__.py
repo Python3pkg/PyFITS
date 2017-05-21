@@ -4,7 +4,7 @@
 # This software is licensed under the terms of the BSD license.
 # http://www.voidspace.org.uk/python/license.shtml
 
-from __future__ import with_statement
+
 
 from _weakref import ref
 

@@ -1,4 +1,4 @@
-from __future__ import division
+
 
 
 import datetime
@@ -922,7 +922,7 @@ class _ValidHDU(_BaseHDU, _Verify):
         case?  Not sure...
         """
 
-        return first(header.keys()) not in ('SIMPLE', 'XTENSION')
+        return first(list(header.keys())) not in ('SIMPLE', 'XTENSION')
 
     @property
     def size(self):

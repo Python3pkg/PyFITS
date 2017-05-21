@@ -1,4 +1,4 @@
-from __future__ import division, with_statement
+
 
 from distutils.version import LooseVersion as V
 from warnings import catch_warnings
@@ -2702,7 +2702,7 @@ class TestColumnFunctions(PyfitsTestCase):
         actually, any key in the NUMPY2FITS dict should be accepted.
         """
 
-        for recformat, fitsformat in NUMPY2FITS.items():
+        for recformat, fitsformat in list(NUMPY2FITS.items()):
             c = fits.Column('TEST', np.dtype(recformat))
             c.format == fitsformat
             c = fits.Column('TEST', recformat)

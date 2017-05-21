@@ -1,4 +1,4 @@
-from __future__ import division
+
 
 import errno
 import functools
@@ -17,9 +17,10 @@ import warnings
 import weakref
 
 from distutils.version import LooseVersion
+import collections
 
 try:
-    from StringIO import StringIO
+    from io import StringIO
 except ImportError:
     class StringIO(object):
         pass
@@ -138,7 +139,7 @@ class NotifierMixin(object):
 
             if hasattr(listener, method_name):
                 method = getattr(listener, method_name)
-                if callable(method):
+                if isinstance(method, collections.Callable):
                     method(*args, **kwargs)
 
     def __getstate__(self):
@@ -523,7 +524,7 @@ def deprecated(since, message='', name='', alternative='', pending=False):
                 if hasattr(method, '__func__'):
                     func = method.__func__
                 elif hasattr(method, 'im_func'):
-                    func = method.im_func
+                    func = method.__func__
                 else:
                     # Nothing we can do really...  just return the original
                     # classmethod
@@ -644,7 +645,7 @@ def pairwise(iterable):
         # Just a little trick to advance b without having to catch
         # StopIter if b happens to be empty
         break
-    return zip(a, b)
+    return list(zip(a, b))
 
 
 def isiterable(obj):

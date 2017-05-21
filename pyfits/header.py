@@ -1,4 +1,4 @@
-from __future__ import division
+
 
 import copy
 import itertools
@@ -179,7 +179,7 @@ class Header(object):
             # the cards are deleted before updating _keyword_indices rather
             # than updating it once for each card that gets deleted]
             if isinstance(key, slice):
-                indices = range(*key.indices(len(self)))
+                indices = list(range(*key.indices(len(self))))
                 # If the slice step is backwards we want to reverse it, because
                 # it will be reversed in a few lines...
                 if key.step and key.step < 0:
@@ -879,7 +879,7 @@ class Header(object):
     def items(self):
         """Like :meth:`dict.items`."""
 
-        return list(self.iteritems())
+        return list(self.items())
 
     def iteritems(self):
         """Like :meth:`dict.iteritems`."""
@@ -998,10 +998,10 @@ class Header(object):
         if other is None:
             pass
         elif hasattr(other, 'iteritems'):
-            for k, v in other.iteritems():
+            for k, v in other.items():
                 update_from_dict(k, v)
         elif hasattr(other, 'keys'):
-            for k in other.keys():
+            for k in list(other.keys()):
                 update_from_dict(k, other[k])
         else:
             for idx, card in enumerate(other):
@@ -1706,7 +1706,7 @@ class Header(object):
 
         if isinstance(key, slice) or self._haswildcard(key):
             if isinstance(key, slice):
-                indices = range(*key.indices(len(target)))
+                indices = list(range(*key.indices(len(target))))
             else:
                 indices = self._wildcardmatch(key)
 
@@ -1939,7 +1939,7 @@ class _HeaderCommentaryCards(_CardAccessor):
     # __len__ and __iter__ need to be overridden from the base class due to the
     # different approach this class has to take for slicing
     def __len__(self):
-        return len(range(*self._indices))
+        return len(list(range(*self._indices)))
 
     def __iter__(self):
         for idx in range(*self._indices):

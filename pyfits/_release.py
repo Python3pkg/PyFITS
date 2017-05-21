@@ -5,9 +5,9 @@ import re
 import subprocess
 import sys
 import textwrap
-import xmlrpclib
+import xmlrpc.client
 
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 from datetime import datetime
 
 from .extern.six import print_, reraise, string_types
@@ -183,19 +183,19 @@ class ReleaseManager(object):
         previous_version = new_version = None
 
         while not previous_version:
-            previous_version = raw_input(
+            previous_version = input(
                 'Enter previous version [%s]: ' %
                 self.previous_version).strip()
             if not previous_version:
                 previous_version = self.previous_version
 
         while not new_version:
-            new_version = raw_input(
+            new_version = input(
                 'Enter new version [%s]: ' % self.released_version).strip()
             if not new_version:
                 new_version = self.released_version
 
-        username = raw_input(
+        username = input(
                 'Enter your Zope username [%s]: ' % getpass.getuser()).strip()
         if not username:
             username = getpass.getuser()
@@ -516,7 +516,7 @@ class _ZopeProxy(object):
         if self.proxy is not None:
             return
         try:
-            self.proxy = xmlrpclib.ServerProxy(self.url)
+            self.proxy = xmlrpc.client.ServerProxy(self.url)
         except:
             # TODO: Catch bad authentication and let the user enter a new
             # username/password

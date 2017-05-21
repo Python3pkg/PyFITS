@@ -1,4 +1,4 @@
-from __future__ import division  # confidence high
+  # confidence high
 
 import contextlib
 import csv
@@ -635,7 +635,7 @@ class _TableBaseHDU(ExtensionHDU, _TableLikeHDU):
         # header *might* not already be written in a reasonable order)
         table_keywords = []
 
-        for idx, keyword in enumerate(self._header.keys()):
+        for idx, keyword in enumerate(list(self._header.keys())):
             match = TDEF_RE.match(keyword)
             try:
                 base_keyword = match.group('label')

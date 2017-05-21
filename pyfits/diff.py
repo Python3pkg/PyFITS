@@ -30,6 +30,7 @@ from .hdu.hdulist import fitsopen  # pylint: disable=W0611
 from .hdu.table import _TableLikeHDU
 from .py3compat import getargspec
 from .util import indent
+from functools import reduce
 
 
 __all__ = ['FITSDiff', 'HDUDiff', 'HeaderDiff', 'ImageDataDiff', 'RawDataDiff',
@@ -77,7 +78,7 @@ class _BaseDiff(object):
 
         self._diff()
 
-    def __nonzero__(self):
+    def __bool__(self):
         """
         A ``_BaseDiff`` object acts as `True` in a boolean context if the two
         objects compared are identical.  Otherwise it acts as `False`.
@@ -824,7 +825,7 @@ class ImageDataDiff(_BaseDiff):
             numdiffs = self.numdiffs
 
         self.diff_pixels = [(idx, (self.a[idx], self.b[idx]))
-                            for idx in islice(zip(*diffs), 0, numdiffs)]
+                            for idx in islice(list(zip(*diffs)), 0, numdiffs)]
         self.diff_ratio = float(self.diff_total) / float(len(self.a.flat))
 
     def _report(self):
@@ -1109,7 +1110,7 @@ class TableDataDiff(_BaseDiff):
                 diffs = where_not_allclose(arra, arrb, atol=0.0,
                                            rtol=self.tolerance)
             elif 'P' in col.format:
-                diffs = ([idx for idx in xrange(len(arra))
+                diffs = ([idx for idx in range(len(arra))
                           if not np.allclose(arra[idx], arrb[idx], atol=0.0,
                                              rtol=self.tolerance)],)
             else:
@@ -1231,7 +1232,7 @@ def report_diff_values(fileobj, a, b, ind=0):
         diff_indices = np.where(a != b)
         num_diffs = reduce(lambda x, y: x * y,
                            (len(d) for d in diff_indices), 1)
-        for idx in islice(zip(*diff_indices), 3):
+        for idx in islice(list(zip(*diff_indices)), 3):
             fileobj.write(indent(u('  at %r:\n') % list(idx), ind))
             report_diff_values(fileobj, a[idx], b[idx], ind=ind + 1)
 

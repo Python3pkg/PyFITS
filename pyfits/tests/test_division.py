@@ -1,5 +1,5 @@
-from __future__ import division  # confidence high
-from __future__ import with_statement
+  # confidence high
+
 
 import numpy as np
 

@@ -16,6 +16,7 @@ from .column import (ASCIITNULL, FITS2NUMPY, ASCII2NUMPY, ASCII2STR, ColDefs,
 from .py3compat import ignored
 from .util import encode_ascii, decode_ascii, lazyproperty
 from ._compat.weakref import WeakSet
+from functools import reduce
 
 
 class FITS_record(object):
@@ -83,7 +84,7 @@ class FITS_record(object):
             if indx < self.start or indx > self.end - 1:
                 raise KeyError("Key '%s' does not exist." % key)
         elif isinstance(key, slice):
-            for indx in xrange(slice.start, slice.stop, slice.step):
+            for indx in range(slice.start, slice.stop, slice.step):
                 indx = self._get_indx(indx)
                 self.array.field(indx)[self.row] = value
         else:
@@ -97,7 +98,7 @@ class FITS_record(object):
         return self[slice(start, end)]
 
     def __len__(self):
-        return len(xrange(self.start, self.end, self.step))
+        return len(range(self.start, self.end, self.step))
 
     def __repr__(self):
         """
@@ -105,7 +106,7 @@ class FITS_record(object):
         """
 
         outlist = []
-        for idx in xrange(len(self)):
+        for idx in range(len(self)):
             outlist.append(repr(self[idx]))
         return '(%s)' % ', '.join(outlist)
 
@@ -664,7 +665,7 @@ class FITS_rec(np.recarray):
 
         if _has_unicode_fields(self):
             total_itemsize = 0
-            for field in self.dtype.fields.values():
+            for field in list(self.dtype.fields.values()):
                 itemsize = field[0].itemsize
                 if field[0].kind == 'U':
                     itemsize = itemsize // 4
@@ -1346,5 +1347,5 @@ def _has_unicode_fields(array):
     Returns True if any fields in a structured array have Unicode dtype.
     """
 
-    dtypes = (d[0] for d in array.dtype.fields.values())
+    dtypes = (d[0] for d in list(array.dtype.fields.values()))
     return any(d.kind == 'U' for d in dtypes)

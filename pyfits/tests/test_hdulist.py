@@ -1,4 +1,4 @@
-from __future__ import division, with_statement  # confidence high
+  # confidence high
 
 import glob
 import os

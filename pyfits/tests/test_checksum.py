@@ -1,4 +1,4 @@
-from __future__ import division, with_statement  # confidence high
+  # confidence high
 
 import contextlib
 import sys
@@ -128,7 +128,7 @@ class TestChecksumFunctions(PyfitsTestCase):
             hdul.writeto(self.temp('tmp.fits'), clobber=True, checksum=True)
             with fits.open(self.temp('tmp.fits'), uint=True,
                            checksum=True) as hdul1:
-                for idx, (hdu_a, hdu_b) in enumerate(zip(hdul, hdul1)):
+                for idx, (hdu_a, hdu_b) in enumerate(list(zip(hdul, hdul1))):
                     if hdu_a.data is None or hdu_b.data is None:
                         assert hdu_a.data is hdu_b.data
                     else:

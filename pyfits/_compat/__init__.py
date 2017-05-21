@@ -19,7 +19,7 @@ def _register_patched_dtype_reduce():
         NUMPY_LT_1_7 = V(np.__version__) < V('1.7.0')
 
     if NUMPY_LT_1_7:
-        import copy_reg
+        import copyreg
 
         # Originally this created an alternate constructor that fixed this
         # issue, and returned that constructor from the new reduce_dtype;
@@ -34,7 +34,7 @@ def _register_patched_dtype_reduce():
                 info = (info[0], args) + info[2:]
             return info
 
-        copy_reg.pickle(np.dtype, reduce_dtype)
+        copyreg.pickle(np.dtype, reduce_dtype)
 
 
 _register_patched_dtype_reduce()

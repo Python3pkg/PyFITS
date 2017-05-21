@@ -1,4 +1,4 @@
-from __future__ import division, with_statement
+
 
 import gzip
 import mmap
@@ -18,6 +18,7 @@ from .extern.six.moves import urllib, reduce
 from .util import (isreadable, iswritable, isfile, fileobj_open, fileobj_name,
                    fileobj_closed, fileobj_mode, _array_from_file,
                    _array_to_file, _write_string, encode_ascii, classproperty)
+from functools import reduce
 
 
 # Maps PyFITS-specific file mode names to the appropriate file modes to use

@@ -234,7 +234,7 @@ def match_files(paths):
             filelists[a] = filelists[a][:len(filelists[b])]
             break
 
-    return zip(*filelists)
+    return list(zip(*filelists))
 
 
 def main():

@@ -101,7 +101,7 @@ class HeaderFormatter(object):
         """
         # `hdukeys` will hold the keys of the HDUList items to display
         if extensions is None:
-            hdukeys = range(len(self._hdulist))  # Display all by default
+            hdukeys = list(range(len(self._hdulist)))  # Display all by default
         else:
             hdukeys = []
             for ext in extensions:

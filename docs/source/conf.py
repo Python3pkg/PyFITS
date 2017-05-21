@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import division # confidence high
+ # confidence high
 
 #
 # pyfits documentation build configuration file, created by

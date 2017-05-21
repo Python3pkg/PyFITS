@@ -17,6 +17,7 @@ from .py3compat import ignored, OrderedDict
 from .util import (lazyproperty, pairwise, _is_int, _convert_array,
                    encode_ascii, indent, isiterable, cmp, NotifierMixin)
 from .verify import VerifyError, VerifyWarning
+from functools import reduce
 
 
 __all__ = ['Column', 'ColDefs', 'Delayed']
@@ -90,7 +91,7 @@ KEYWORD_TO_ATTRIBUTE = \
 
 ATTRIBUTE_TO_KEYWORD = \
     OrderedDict((value, key)
-                for key, value in KEYWORD_TO_ATTRIBUTE.items())
+                for key, value in list(KEYWORD_TO_ATTRIBUTE.items()))
 
 
 # TODO: Define a list of default comments to associate with each table keyword
@@ -531,7 +532,7 @@ class Column(NotifierMixin):
         if invalid_kwargs:
             msg = ['The following keyword arguments to Column were invalid:']
 
-            for val in invalid_kwargs.values():
+            for val in list(invalid_kwargs.values()):
                 msg.append(indent(val[1]))
 
             raise VerifyError('\n'.join(msg))
@@ -1316,7 +1317,7 @@ class ColDefs(NotifierMixin):
         # we only want to pass on the valid keywords
         for idx, kwargs in enumerate(col_keywords):
             valid_kwargs, invalid_kwargs = Column._verify_keywords(**kwargs)
-            for val in invalid_kwargs.values():
+            for val in list(invalid_kwargs.values()):
                 warnings.warn(
                     'Invalid keyword for column %d: %s' % (idx + 1, val[1]),
                     VerifyWarning)
@@ -1502,7 +1503,7 @@ class ColDefs(NotifierMixin):
         if not isinstance(other, (list, tuple)):
             other = [other]
         _other = [_get_index(self.names, key) for key in other]
-        indx = range(len(self))
+        indx = list(range(len(self)))
         for x in _other:
             indx.remove(x)
         tmp = [self[i] for i in indx]

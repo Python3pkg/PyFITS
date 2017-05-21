@@ -143,7 +143,7 @@ class _ErrList(list):
         # messages
         for item in self:
             if not isinstance(item, _ErrList):
-                if filter is None or filter(item):
+                if filter is None or list(filter(item)):
                     yield item[0], indent(item[1], shift=shift)
 
         # second time go through the next level items, each of the next level

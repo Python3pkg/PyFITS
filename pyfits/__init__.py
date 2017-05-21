@@ -1,6 +1,6 @@
 # This is the configuration file for the pyfits namespace.
 
-from __future__ import division
+
 
 try:
     from .version import __version__

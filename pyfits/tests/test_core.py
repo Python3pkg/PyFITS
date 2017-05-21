@@ -1,4 +1,4 @@
-from __future__ import division, with_statement
+
 
 import gzip
 import bz2
@@ -12,7 +12,7 @@ import warnings
 import zipfile
 
 try:
-    import StringIO
+    import io
     HAVE_STRINGIO = True
 except ImportError:
     HAVE_STRINGIO = False
@@ -505,7 +505,7 @@ class TestCore(PyfitsTestCase):
             with fits.open(self.data('test0.fits')) as hdul2:
                 with fits.open(self.temp('test2.fits')) as hdul3:
                     for hdul in (hdul1, hdul3):
-                        for idx, hdus in enumerate(zip(hdul1, hdul)):
+                        for idx, hdus in enumerate(list(zip(hdul1, hdul))):
                             hdu1, hdu2 = hdus
                             if idx != 1:
                                 assert hdu1.header == hdu2.header
@@ -935,7 +935,7 @@ class TestFileFunctions(PyfitsTestCase):
             accept a bytes stream.
             """
 
-            self._test_write_string_bytes_io(StringIO.StringIO())
+            self._test_write_string_bytes_io(io.StringIO())
 
     if HAVE_STRINGIO:
         def test_write_stringio_discontiguous(self):
@@ -949,7 +949,7 @@ class TestFileFunctions(PyfitsTestCase):
 
             data = np.arange(100)[::3]
             hdu = fits.PrimaryHDU(data=data)
-            fileobj = StringIO.StringIO()
+            fileobj = io.StringIO()
             hdu.writeto(fileobj)
 
             fileobj.seek(0)

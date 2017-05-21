@@ -839,9 +839,9 @@ class Section(object):
         return data
 
     def _getdata(self, keys):
-        for idx, (key, axis) in enumerate(zip(keys, self.hdu.shape)):
+        for idx, (key, axis) in enumerate(list(zip(keys, self.hdu.shape))):
             if isinstance(key, slice):
-                ks = range(*key.indices(axis))
+                ks = list(range(*key.indices(axis)))
                 break
             elif isiterable(key):
                 # Handle both integer and boolean arrays.

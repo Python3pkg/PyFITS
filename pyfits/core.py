@@ -21,7 +21,7 @@ For detailed examples of usage, see the `PyFITS User's Manual
 # The existing unit tests, anyways, only require this in pyfits.hdu.table,
 # but we should still leave new division here too in order to avoid any nasty
 # surprises
-from __future__ import division  # confidence high
+  # confidence high
 
 
 """
